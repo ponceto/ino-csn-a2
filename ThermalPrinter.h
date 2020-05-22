@@ -16,8 +16,8 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
-#ifndef __CSN_A2_ThermalPrinter_h__
-#define __CSN_A2_ThermalPrinter_h__
+#ifndef __INO_CSN_A2_ThermalPrinter_h__
+#define __INO_CSN_A2_ThermalPrinter_h__
 
 // ---------------------------------------------------------------------------
 // ThermalPrinter defines
@@ -256,4 +256,4 @@ private: // private data
 // End-Of-File
 // ---------------------------------------------------------------------------
 
-#endif /* __CSN_A2_ThermalPrinter_h__ */
+#endif /* __INO_CSN_A2_ThermalPrinter_h__ */
