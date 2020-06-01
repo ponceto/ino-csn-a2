@@ -156,6 +156,8 @@ class ThermalPrinter
 public: // public interface
     ThermalPrinter(Stream& stream);
 
+    virtual ~ThermalPrinter() = default;
+
     void begin();
     void reset();
     void end();
@@ -217,7 +219,7 @@ public: // public interface
 
     void printBarcode          ( const char *text, const uint8_t type );
 
-    bool hasPaper              ( );
+    int  hasPaper              ( );
 
     void waitReady             ( );
 

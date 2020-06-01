@@ -778,19 +778,25 @@ void ThermalPrinter::printBarcode(const char* data, const uint8_t type)
     }
 }
 
-bool ThermalPrinter::hasPaper()
+int ThermalPrinter::hasPaper()
 {
+    /* flush input */ {
+        while(_stream.available()) {
+            (void) _stream.read();
+        }
+    }
+
     typedef Command::GetPrinterStatus command_traits;
 
     send ( command_traits::control
          , command_traits::function
          , command_traits::n1(0x00) );
 
-    bool has_paper = false;
+    int has_paper = -1;
     /* fetch status */ {
         int status = -1;
         constexpr int retry_count = 10;
-        constexpr int retry_delay = 50;
+        constexpr int retry_delay = 25;
         for(int retry = 0; retry < retry_count; ++retry) {
             if(_stream.available()) {
                 status = _stream.read();
@@ -800,8 +806,13 @@ bool ThermalPrinter::hasPaper()
                 ::delay(retry_delay);
             }
         }
-        if((status != -1) && ((status & 0b00000100) == 0)) {
-            has_paper = true;
+        if(status != -1) {
+            if((status & 0b00000100) == 0) {
+                has_paper = 1;
+            }
+            else {
+                has_paper = 0;
+            }
         }
     }
     return has_paper;
@@ -836,6 +847,7 @@ bool ThermalPrinter::send(const uint8_t a)
 
     if(waitAndSetNextTimeout(timeout)) {
         _stream.write(a);
+        _stream.flush();
     }
     return true;
 }
@@ -849,6 +861,7 @@ bool ThermalPrinter::send(const uint8_t a, const uint8_t b)
     if(waitAndSetNextTimeout(timeout)) {
         _stream.write(a);
         _stream.write(b);
+        _stream.flush();
     }
     return true;
 }
@@ -863,6 +876,7 @@ bool ThermalPrinter::send(const uint8_t a, const uint8_t b, const uint8_t c)
         _stream.write(a);
         _stream.write(b);
         _stream.write(c);
+        _stream.flush();
     }
     return true;
 }
@@ -878,6 +892,7 @@ bool ThermalPrinter::send(const uint8_t a, const uint8_t b, const uint8_t c, con
         _stream.write(b);
         _stream.write(c);
         _stream.write(d);
+        _stream.flush();
     }
     return true;
 }
@@ -894,6 +909,7 @@ bool ThermalPrinter::send(const uint8_t a, const uint8_t b, const uint8_t c, con
         _stream.write(c);
         _stream.write(d);
         _stream.write(e);
+        _stream.flush();
     }
     return true;
 }
