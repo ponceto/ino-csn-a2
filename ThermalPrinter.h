@@ -1,5 +1,5 @@
 /*
- * ThermalPrinter.h - Copyright (c) 2014-2020 - Olivier Poncet
+ * ThermalPrinter.h - Copyright (c) 2014-2025 - Olivier Poncet
  *
  * This file is part of the CSN-A2 library
  *
